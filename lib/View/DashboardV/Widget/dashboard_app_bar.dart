@@ -14,7 +14,72 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
     {'name': 'USA', 'flag': '🇺🇸'},
     {'name': 'UK', 'flag': '🇬🇧'},
     {'name': 'Germany', 'flag': '🇩🇪'},
+    {'name': 'France', 'flag': '🇫🇷'},
+    {'name': 'Japan', 'flag': '🇯🇵'},
+    {'name': 'Canada', 'flag': '🇨🇦'},
+    {'name': 'Brazil', 'flag': '🇧🇷'},
+    {'name': 'Australia', 'flag': '🇦🇺'},
+    {'name': 'Italy', 'flag': '🇮🇹'},
   ];
+
+  void _showCountryPopup(BuildContext context) {
+    final overlay = Overlay.of(context);
+    OverlayEntry? entry;
+
+    entry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: kToolbarHeight + 10,
+        right: 0,
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            width: 250,
+            height: 300,
+            padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 8)],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: countries.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        height: 36, // fixed height for uniformity and compactness
+                        child: InkWell(
+                          onTap: () {
+                            onCountryChanged(countries[index]['name']);
+                            entry?.remove();
+                          },
+                          child: Row(
+                            children: [
+                              SizedBox(width: 8),
+                              Text(countries[index]['flag'] ?? '', style: TextStyle(fontSize: 18)),
+                              SizedBox(width: 10),
+                              Text(
+                                countries[index]['name'] ?? '',
+                                style: TextStyle(fontSize: 14, fontFamily: 'poppins'),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
+    overlay.insert(entry);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,46 +88,40 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
       titleSpacing: 0,
       title: Column(
         children: [
-          SizedBox(height: 10,),
+          SizedBox(height: 10),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconButton(
-                icon: Icon(Icons.list, color: Colors.black, size: 25),
-                onPressed: () {
-                  // Toggle drawer or perform action
-                },
-              ),
-              SizedBox(width: 10),
-              Image.asset("assets/images/trip_go.png", height: 40,),
-              // Wrap the DropdownButton with an Expanded widget
-              Expanded(
-                child: Container(
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      value: selectedCountry,
-                      isDense: true, // Removes extra padding
-                      items: countries.map((country) {
-                        return DropdownMenuItem<String>(
-                          value: country['name'],
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween, // Optional, adjust if needed
-                            children: [
-                              Text(country['flag'] ?? '', style: TextStyle(fontSize: 18)),
-                              SizedBox(width: 8),
-                              Text(country['name'] ?? ''),
-                            ],
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: onCountryChanged,
-                      icon: Icon(Icons.keyboard_arrow_down, size: 24, color: Colors.grey.shade400), // Customize the icon
-                      iconSize: 24, // Size of the dropdown arrow
-                      isExpanded: true, // Optional, expands the dropdown to fit the width
-                    ),
+              Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.list, color: Colors.black, size: 25),
+                    onPressed: () {
+                      // Toggle drawer or perform action
+                    },
                   ),
+                  SizedBox(width: 10),
+                  Image.asset("assets/images/trip_go.png", height: 40),
+                ],
+              ),
+              GestureDetector(
+                onTap: () => _showCountryPopup(context),
+                child: Row(
+                  children: [
+                    Text(
+                      countries.firstWhere((c) => c['name'] == selectedCountry)['flag'] ?? '',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    SizedBox(width: 4),
+                    Text(
+                      selectedCountry,
+                      style: TextStyle(fontSize: 14, color: Colors.black54, fontFamily: 'poppins'),
+                    ),
+                    SizedBox(width: 2),
+                    Icon(Icons.keyboard_arrow_down, size: 20, color: Colors.grey),
+                  ],
                 ),
               ),
-              SizedBox(width: 12),
             ],
           ),
         ],
