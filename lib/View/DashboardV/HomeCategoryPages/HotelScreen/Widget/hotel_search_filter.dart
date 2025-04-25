@@ -293,39 +293,6 @@ class _HotelSearchFilterState extends State<HotelSearchFilter> {
                 ],
               ),
             ),
-
-
-
-            const SizedBox(height: 20),
-
-
-            SizedBox(
-              width: double.infinity,
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFFE94057), Color(0xFF4A00E0)],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                  ),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: Colors.transparent,
-                    shadowColor: Colors.transparent,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  ),
-                  child: const Text(
-                    'SEARCH',
-                    style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
       ),

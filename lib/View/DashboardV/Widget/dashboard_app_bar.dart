@@ -35,7 +35,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: Container(
             width: 250,
             height: 300,
-            padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+            padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),  // padding adjustments
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
@@ -46,6 +46,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
               children: [
                 Expanded(
                   child: ListView.builder(
+                    padding: EdgeInsets.zero, // Remove the default padding
                     itemCount: countries.length,
                     itemBuilder: (context, index) {
                       return Container(

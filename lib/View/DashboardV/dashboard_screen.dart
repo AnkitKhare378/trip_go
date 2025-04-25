@@ -1,14 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:trip_go/View/DashboardV/Widget/dashboard_app_bar.dart';
-
 import 'HomeCategoryPages/HotelScreen/hotel_page_screen.dart';
-import 'HomeCategoryPages/flight_booking_screen.dart';
-
-class ToursPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) => Center(child: Text("Tours Page"));
-}
+import 'HomeCategoryPages/FlightScreen/flight_booking_screen.dart';
+import 'HomeCategoryPages/TourScreen/tour_page.dart';
 
 class CabsPage extends StatelessWidget {
   @override
@@ -41,7 +36,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final List<Widget> pages = [
     FlightBookingScreen(),
     HotelScreen(),
-    ToursPage(),
+    TourPage(),
     CabsPage(),
     BusesPage(),
   ];

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../Widgets/gradient_button.dart';
 import 'Widget/hotel_search_filter.dart';
 
 class HotelScreen extends StatefulWidget {
@@ -17,7 +18,17 @@ class _HotelScreenState extends State<HotelScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            HotelSearchFilter()
+            HotelSearchFilter(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: GradientButton(
+                label: 'SEARCH HOTEL',
+                onPressed: () {
+                  // Your onPressed action
+                },
+              ),
+            ),
+
             /*Container(
               height: size.height*.5,
               width: double.infinity,

@@ -1,0 +1,52 @@
+import 'package:flutter/material.dart';
+
+class GradientButton extends StatelessWidget {
+  final String label;
+  final VoidCallback? onPressed;
+
+  const GradientButton({
+    super.key,
+    required this.label,
+    this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          backgroundColor: Colors.transparent,
+          foregroundColor: Colors.white,
+          shadowColor: Colors.transparent,
+          elevation: 0,
+        ),
+        onPressed: onPressed,
+        child: Ink(
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Colors.red, Colors.blue],
+            ),
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              child: Text(
+                label,
+                style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
