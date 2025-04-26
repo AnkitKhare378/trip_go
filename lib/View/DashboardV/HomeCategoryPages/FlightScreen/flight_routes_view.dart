@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'flight_routes_data.dart';
 
 class FlightRoutesView extends StatefulWidget {
@@ -93,6 +92,14 @@ class _FlightRoutesViewState extends State<FlightRoutesView> {
                   height: 70,
                   width: 60,
                   fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      height: 70,
+                      width: 60,
+                      color: Colors.grey.shade300, // Greyish background
+                      child: const Icon(Icons.image_not_supported, color: Colors.grey), // Optional: Icon inside
+                    );
+                  },
                 ),
               ),
               const SizedBox(width: 12),

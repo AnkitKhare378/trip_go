@@ -39,7 +39,7 @@ class _OffersViewState extends State<OffersView> {
                 Text(
                   "Offers For You",
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
                     fontFamily: 'poppins',
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
@@ -48,7 +48,7 @@ class _OffersViewState extends State<OffersView> {
                 Text(
                   "View All",
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 18,
                     fontFamily: 'poppins',
                     color: Colors.blueAccent,
                     fontWeight: FontWeight.w600,

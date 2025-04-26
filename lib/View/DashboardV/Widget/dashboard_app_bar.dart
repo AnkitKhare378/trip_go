@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../Widgets/custom_drawer.dart';
+
 class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String selectedCountry;
   final Function(String?) onCountryChanged;
@@ -10,17 +12,18 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
   });
 
   final List<Map<String, String>> countries = [
-    {'name': 'India', 'flag': '🇮🇳'},
-    {'name': 'USA', 'flag': '🇺🇸'},
-    {'name': 'UK', 'flag': '🇬🇧'},
-    {'name': 'Germany', 'flag': '🇩🇪'},
-    {'name': 'France', 'flag': '🇫🇷'},
-    {'name': 'Japan', 'flag': '🇯🇵'},
-    {'name': 'Canada', 'flag': '🇨🇦'},
-    {'name': 'Brazil', 'flag': '🇧🇷'},
-    {'name': 'Australia', 'flag': '🇦🇺'},
-    {'name': 'Italy', 'flag': '🇮🇹'},
+    {'name': 'India', 'flag': 'https://flagcdn.com/w40/in.png'},
+    {'name': 'USA', 'flag': 'https://flagcdn.com/w40/us.png'},
+    {'name': 'UK', 'flag': 'https://flagcdn.com/w40/gb.png'},
+    {'name': 'Germany', 'flag': 'https://flagcdn.com/w40/de.png'},
+    {'name': 'France', 'flag': 'https://flagcdn.com/w40/fr.png'},
+    {'name': 'Japan', 'flag': 'https://flagcdn.com/w40/jp.png'},
+    {'name': 'Canada', 'flag': 'https://flagcdn.com/w40/ca.png'},
+    {'name': 'Brazil', 'flag': 'https://flagcdn.com/w40/br.png'},
+    {'name': 'Australia', 'flag': 'https://flagcdn.com/w40/au.png'},
+    {'name': 'Italy', 'flag': 'https://flagcdn.com/w40/it.png'},
   ];
+
 
   void _showCountryPopup(BuildContext context) {
     final overlay = Overlay.of(context);
@@ -59,7 +62,12 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
                           child: Row(
                             children: [
                               SizedBox(width: 8),
-                              Text(countries[index]['flag'] ?? '', style: TextStyle(fontSize: 18)),
+                              Image.network(
+                                countries[index]['flag'] ?? '',
+                                width: 24,
+                                height: 16,
+                                fit: BoxFit.cover,
+                              ),
                               SizedBox(width: 10),
                               Text(
                                 countries[index]['name'] ?? '',
@@ -96,9 +104,43 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
               Row(
                 children: [
                   IconButton(
-                    icon: Icon(Icons.list, color: Colors.black, size: 25),
+                      icon: Icon(Icons.list, color: Colors.black, size: 25),
                     onPressed: () {
-                      // Toggle drawer or perform action
+                      showGeneralDialog(
+                        context: context,
+                        barrierDismissible: true,
+                        barrierLabel: "Drawer",
+                        barrierColor: Colors.black.withOpacity(0.5), // background dim
+                        transitionDuration: Duration(milliseconds: 300),
+                        pageBuilder: (context, animation, secondaryAnimation) {
+                          return Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              height: MediaQuery.of(context).size.height,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(5),
+                                  bottomRight: Radius.circular(5),
+                                ),
+                              ),
+                              child: CustomDrawer(), // Your Drawer
+                            ),
+                          );
+                        },
+                        transitionBuilder: (context, animation, secondaryAnimation, child) {
+                          final tween = Tween<Offset>(
+                            begin: Offset(-1, 0), // From left outside screen
+                            end: Offset(0, 0),    // To center
+                          ).chain(CurveTween(curve: Curves.easeInOut));
+
+                          return SlideTransition(
+                            position: animation.drive(tween),
+                            child: child,
+                          );
+                        },
+                      );
                     },
                   ),
                   SizedBox(width: 10),
@@ -109,9 +151,11 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
                 onTap: () => _showCountryPopup(context),
                 child: Row(
                   children: [
-                    Text(
+                    Image.network(
                       countries.firstWhere((c) => c['name'] == selectedCountry)['flag'] ?? '',
-                      style: TextStyle(fontSize: 18),
+                      width: 24,
+                      height: 16,
+                      fit: BoxFit.cover,
                     ),
                     SizedBox(width: 4),
                     Text(

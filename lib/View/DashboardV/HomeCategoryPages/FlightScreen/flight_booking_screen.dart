@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:trip_go/View/DashboardV/HomeCategoryPages/FlightScreen/flight_routes_view.dart';
-import 'package:trip_go/View/DashboardV/HomeCategoryPages/FlightScreen/offers_view.dart';
+import 'package:trip_go/View/DashboardV/HomeCategoryPages/FlightScreen/select_origin_city_screen.dart';
 import '../../../Widgets/gradient_button.dart';
+import 'FlightPartSections/benefit_section_widget.dart';
+import 'FlightPartSections/bottom_widget.dart';
+import 'FlightPartSections/more_lik_section.dart';
+import 'FlightPartSections/offers_view.dart';
+import 'FlightPartSections/search_destination_section.dart';
+import 'FlightPartSections/where2_go_section.dart';
 import 'FlightWidgets/flight_checkbox_grid.dart';
 import 'FlightWidgets/flight_widgets.dart';
+import 'flight_list_screen.dart';
+import 'flight_routes_view.dart';
 
 class FlightBookingScreen extends StatefulWidget {
   const FlightBookingScreen({super.key});
@@ -13,6 +20,9 @@ class FlightBookingScreen extends StatefulWidget {
 }
 
 class _FlightBookingScreenState extends State<FlightBookingScreen> {
+  Map<String, String>? fromCity;
+  Map<String, String>? toCity;
+
   int tripTypeIndex = 0;
   DateTime? departureDate = DateTime.now();
   DateTime? returnDate;
@@ -62,11 +72,14 @@ class _FlightBookingScreenState extends State<FlightBookingScreen> {
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 10,),
+                      SizedBox(height: 10),
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
@@ -77,7 +90,8 @@ class _FlightBookingScreenState extends State<FlightBookingScreen> {
                         padding: const EdgeInsets.all(4),
                         child: TripSelector(
                           tripTypeIndex: tripTypeIndex,
-                          onChanged: (index) => setState(() => tripTypeIndex = index),
+                          onChanged:
+                              (index) => setState(() => tripTypeIndex = index),
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -87,24 +101,84 @@ class _FlightBookingScreenState extends State<FlightBookingScreen> {
                           Row(
                             children: [
                               Expanded(
-                                child: LocationBox(label: 'FROM', code: 'DEL', city: 'DELHI'),
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    final selectedCity = await Navigator.push<
+                                        Map<String, String>
+                                    >(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (context) =>
+                                            SelectOriginCityScreen(),
+                                      ),
+                                    );
+                                    if (selectedCity != null) {
+                                      setState(() {
+                                        fromCity = selectedCity;
+                                      });
+                                    }
+                                  },
+                                  child: LocationBox(
+                                    label: 'FROM',
+                                    code: fromCity?['code'] ?? 'DEL',
+                                    city: fromCity?['city'] ?? 'DELHI',
+                                  ),
+                                ),
                               ),
-                              const SizedBox(width: 15), // Space for the overlapped icon
+                              const SizedBox(width: 15),
                               Expanded(
-                                child: LocationBox(label: 'TO', code: 'BOM', city: 'MUMBAI'),
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    final selectedCity = await Navigator.push<
+                                        Map<String, String>
+                                    >(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (context) =>
+                                            SelectOriginCityScreen(),
+                                      ),
+                                    );
+                                    if (selectedCity != null) {
+                                      setState(() {
+                                        toCity = selectedCity;
+                                      });
+                                    }
+                                  },
+                                  child: LocationBox(
+                                    label: 'TO',
+                                    code: toCity?['code'] ?? 'DEL',
+                                    city: toCity?['city'] ?? 'DELHI',
+                                  ),
+                                ),
                               ),
                             ],
                           ),
-                          Container(
-                            height: 46,
-                            width: 46,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(color: Colors.blue, width: 1),
-                              color: Colors.blue.shade50,
-                            ),
-                            child: const Center(
-                              child: Icon(Icons.swap_horiz, color: Colors.blue, size: 35),
+
+                          GestureDetector(
+                            onTap: (){
+                              setState(() {
+                                final temp = fromCity;
+                                fromCity = toCity;
+                                toCity = temp;
+                              });
+                            },
+                            child: Container(
+                              height: 46,
+                              width: 46,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(color: Colors.blue, width: 1),
+                                color: Colors.blue.shade50,
+                              ),
+                              child: const Center(
+                                child: Icon(
+                                  Icons.swap_horiz,
+                                  color: Colors.blue,
+                                  size: 35,
+                                ),
+                              ),
                             ),
                           ),
                         ],
@@ -129,9 +203,17 @@ class _FlightBookingScreenState extends State<FlightBookingScreen> {
                               date: returnDate,
                               isDeparture: false,
                               enabled: tripTypeIndex != 0,
-                              onTap: () => _pickDate(false),
+                              onTap: () {
+                                if (tripTypeIndex == 0) {
+                                  setState(() {
+                                    tripTypeIndex = 1; // Switch to "Round Trip"
+                                  });
+                                }
+                                _pickDate(false); // Open the date picker
+                              },
                             ),
                           ),
+
                         ],
                       ),
                       const SizedBox(height: 12),
@@ -158,16 +240,20 @@ class _FlightBookingScreenState extends State<FlightBookingScreen> {
                         studentFare: studentFare,
                         armedForces: armedForces,
                         seniorCitizen: seniorCitizen,
-                        onNonStopChanged: (val) => setState(() => nonStop = val!),
-                        onStudentFareChanged: (val) => setState(() => studentFare = val!),
-                        onArmedForcesChanged: (val) => setState(() => armedForces = val!),
-                        onSeniorCitizenChanged: (val) => setState(() => seniorCitizen = val!),
+                        onNonStopChanged:
+                            (val) => setState(() => nonStop = val!),
+                        onStudentFareChanged:
+                            (val) => setState(() => studentFare = val!),
+                        onArmedForcesChanged:
+                            (val) => setState(() => armedForces = val!),
+                        onSeniorCitizenChanged:
+                            (val) => setState(() => seniorCitizen = val!),
                       ),
                       const SizedBox(height: 10),
                       GradientButton(
                         label: 'SEARCH FLIGHT',
                         onPressed: () {
-                          // Handle search flight
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>FlightListScreen()));
                         },
                       ),
                     ],
@@ -176,6 +262,11 @@ class _FlightBookingScreenState extends State<FlightBookingScreen> {
               ),
               FlightRoutesView(),
               OffersView(),
+              SearchDestinationsSection(),
+              Where2GoSection(),
+              BenefitSectionWidget(),
+              BottomWidget(),
+              MoreLinksSection()
             ],
           ),
         ),
