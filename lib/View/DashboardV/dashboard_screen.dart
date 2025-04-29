@@ -61,7 +61,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
             color: Colors.grey.shade300,
             thickness: 1.0,
           ),
-          // Fixed Category Container
           Container(
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
             color: Colors.white,
@@ -75,7 +74,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       selectedIndex = index;
                     });
                   },
-                  child:  Container(
+                  child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                     decoration: BoxDecoration(
                       color: isSelected ? Colors.deepPurple.shade50 : Colors.white,
@@ -88,36 +87,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
-                        // Glitter white radial glow at center
                         if (isSelected)
-                          Positioned.fill(
-                            child: Align(
-                              alignment: Alignment.topCenter,
-                              child: Container(
-                                width: 35,
-                                height: 35,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  gradient: RadialGradient(
-                                    colors: [
-                                      Colors.white.withOpacity(0.6),
-                                      Colors.white.withOpacity(0.0),
-                                    ],
-                                    radius: 0.7,
-                                  ),
-                                ),
+                          Container(
+                            width: 35,
+                            height: 35,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: RadialGradient(
+                                colors: [
+                                  Colors.white.withOpacity(0.6),
+                                  Colors.white.withOpacity(0.0),
+                                ],
+                                radius: 0.7,
                               ),
                             ),
                           ),
-                        // Image and text
                         Column(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                             Image.asset(
                               menuIcons[index],
                               width: 34,
                               height: 34,
                             ),
-                            SizedBox(height: 0),
+                            SizedBox(height: 5),
                             Text(
                               menuItems[index],
                               style: TextStyle(
@@ -137,7 +130,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ),
           SizedBox(height: 10),
-          // Expanded page content
           Expanded(
             child: pages[selectedIndex],
           ),

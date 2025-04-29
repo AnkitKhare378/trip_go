@@ -53,21 +53,19 @@ class LocationBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: const Color(0xFFF6F6FA),
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(label, style: const TextStyle(fontSize: 12, color: Colors.black54, fontFamily: 'poppins')),
-            Text(code, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, fontFamily: 'poppins')),
-            Text(city, style: const TextStyle(fontSize: 12, color: Colors.black, fontFamily: 'poppins', fontWeight: FontWeight.w600)),
-          ],
-        ),
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF6F6FA),
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(label, style: const TextStyle(fontSize: 12, color: Colors.black54, fontFamily: 'poppins')),
+          Text(code, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, fontFamily: 'poppins')),
+          Text(city, style: const TextStyle(fontSize: 12, color: Colors.black, fontFamily: 'poppins', fontWeight: FontWeight.w600)),
+        ],
       ),
     );
   }
@@ -129,7 +127,7 @@ class DateBox extends StatelessWidget {
 class TravellerBox extends StatelessWidget {
   final int travellerCount;
 
-  const TravellerBox({super.key, required this.travellerCount});
+  const TravellerBox({required this.travellerCount});
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +143,7 @@ class TravellerBox extends StatelessWidget {
           const Text('TRAVELLER(S)', style: TextStyle(fontSize: 12, color: Colors.black, fontFamily: 'poppins')),
           const SizedBox(height: 6),
           Text(
-            '$travellerCount Traveller',
+            '$travellerCount Traveller', // Handle pluralization
             style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'poppins'),
           ),
         ],
@@ -153,6 +151,7 @@ class TravellerBox extends StatelessWidget {
     );
   }
 }
+
 
 class DropdownBox extends StatelessWidget {
   final String label;
