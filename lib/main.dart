@@ -3,7 +3,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'package:trip_go/View/DashboardV/dashboard_screen.dart';
 
-import 'View/DashboardV/HomeCategoryPages/FlightScreen/FlightReviewScreen/promo_section/promo_section.dart';
+import 'View/DashboardV/HomeCategoryPages/FlightScreen/FlightReviewScreen/promo_section/promo_provider.dart';
 
 void main() {
   runApp(
